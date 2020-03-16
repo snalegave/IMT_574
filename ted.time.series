@@ -1,0 +1,30 @@
+library(ggplot2)
+library(dplyr)
+
+### received information and code for this library at https://stackoverflow.com/questions/13456241/convert-unix-epoch-to-date-object
+library(anytime)
+
+ted$published.2 <- anydate(ted$published_date)
+ted$film.2 <-anydate(ted$film_date)
+
+ted$published.year <- substring(ted$published.2, 1,4)
+ted$published.month <- substring(ted$published.2, 6, 7)
+
+## bar plot by year published
+ted %>% 
+  ggplot(aes(x = published.year, y = views)) +
+  geom_bar(stat = 'identity')+
+  labs(title = "Bar graph based on published Year")
+
+## bar plot by month published
+ted %>% 
+  ggplot(aes(x = published.month, y = views)) +
+  geom_bar(stat = 'identity')+
+  labs(title = "Bar graph based on published Month")
+  
+  
+### Top Viewed videos
+  ted %>% group_by(name) %>%
+  summarise(Total.Views = sum(views)) %>%
+  arrange(-Total.Views) %>%
+  head(10)
